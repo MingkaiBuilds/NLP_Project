@@ -12,6 +12,12 @@ mistral_tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.3")
 processed = []
 
 for sequence in sequences:
+    '''
+    sequence is a dictionary with the following keys:
+    pre_context: part of GPT-2 generated output before the memorized snippet
+    text: the memorized snippet
+    post_context: part of GPT-2 generated output after the memorized snippet
+    '''
     processed_sequence = copy.deepcopy(sequence)
 
     pre_context = sequence['pre_context']
@@ -35,6 +41,14 @@ for sequence in sequences:
     processed_sequence["gpt_post_context_token_count"] = len(gpt_tokenizer.tokenize(post_context))
     #processed_sequence["llama_post_context_token_count"] = len(llama_tokenizer.tokenize(post_context))
     processed_sequence["mistral_post_context_token_count"] = len(mistral_tokenizer.tokenize(post_context))
+
+    total_text = pre_context + " " + text + " " + post_context
+    processed_sequence["total_text"] = total_text
+    processed_sequence["total_text_char_length"] = len(total_text)
+    processed_sequence["total_text_word_count"] = len(total_text.split())
+    processed_sequence["gpt_total_text_token_count"] = len(gpt_tokenizer.tokenize(total_text))
+    #processed_sequence["llama_total_text_token_count"] = len(llama_tokenizer.tokenize(total_text))
+    processed_sequence["mistral_total_text_token_count"] = len(mistral_tokenizer.tokenize(total_text))
 
     processed.append(processed_sequence)
 
