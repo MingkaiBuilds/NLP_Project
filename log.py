@@ -13,8 +13,8 @@ def log(model, mode, runtime_type):
         raise ValueError("Mode must be either 'empty prompt' or 'common crawl'")
     
     # Count number of files in directory
-    N = sum(1 for _ in Path('results/' + model).glob('*.log')) + 1
-    log_name = f'{model}_{N}.txt'
+    N = sum(1 for _ in Path('results/' + model).glob('*.json')) + 1
+    log_name = f'{model}_{N}.json'
     log_dir = 'results/' + model + '/' + log_name
     log_path = os.path.join(log_dir, log_name)
 
